@@ -1,17 +1,8 @@
 import glob
 import os
 
-import librosa.display
+import librosa
 import numpy as np
-import matplotlib.pyplot as plt
-import soundfile as sf
-import tensorflow as tf
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
-import tensorflow as tf
-
-from tensorflow.keras import datasets, layers, models
-import matplotlib.pyplot as plt
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -33,8 +24,12 @@ def process_single(my_file, length, step):
 length = 44100
 step = int(length / 2)
 
-file_names = glob.glob('dataSet_new/**/*.mp3', recursive=True)
+file_names = glob.glob('dataset/**/*.mp3', recursive=True)
 for file in file_names:
-    print(file)
-    process_single(file, length, step)
+    if not os.path.exists(file + ".npz"):
+        print(file)
+        process_single(file, length, step)
+    else:
+        print("Skipping", file)
+
 
